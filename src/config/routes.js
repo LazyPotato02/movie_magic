@@ -12,7 +12,6 @@ router.get('/create',createGet)
 router.get('/details/:id',details);
 router.get('/search',search)
 router.get('*',notFound)
-
 router.post('/create', createPost)
 // Add routes
 
