@@ -26,7 +26,12 @@ body {
     background-size: cover;
     background-attachment: fixed;
 }
-
+.error label{
+    color: red;
+}
+.error input.inputFields, .error textarea.inputFields{
+    border-color: red;
+}
 *,
 *::before,
 *::after {
