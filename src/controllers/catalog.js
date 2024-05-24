@@ -20,35 +20,33 @@ module.exports = {
     },
     search: async (req, res) => {
         const { search, genre, year } = req.query;
-        try {
-            const allMoviesObject = await getAllMovies();
-            const allMovies = Object.values(allMoviesObject);
 
-            // Filter movies based on any matching query parameters
-            const uniqueFilteredMovies = new Set();
-            allMovies.forEach(movie => {
-                const movieTitle = movie.title.toLowerCase();
-                const movieGenre = movie.genre.toLowerCase();
-                const movieYear = movie.year.toString();
+        console.log('Received search:', search);
+        console.log('Received genre:', genre);
+        console.log('Received year:', year);
 
-                // Check if any of the search criteria match
-                const titleMatch = !search || (search && movieTitle.startsWith(search.toLowerCase()));
-                const genreMatch = !genre || (genre && movieGenre === genre.toLowerCase());
-                const yearMatch = !year || (year && movieYear === year.toString());
-                // If any of the search criteria match, add the movie to the set
-                if (titleMatch) {
-                    uniqueFilteredMovies.add(movie);
-                }
-            });
+        const allMoviesObject = await getAllMovies();
+        const allMovies = Object.values(allMoviesObject);
+        // Filter movies based on any matching query parameters
+        const uniqueFilteredMovies = new Set();
+        const filteredMovies = allMovies.filter(movie => {
+            const movieTitle = movie.title.toLowerCase();
+            const movieGenre = movie.genre.toLowerCase();
+            const movieYear = movie.year.toString();
 
-            // Convert the set of unique movies back to an array
-            const filteredMovies = Array.from(uniqueFilteredMovies);
-            // Render the view with the filtered movies
-            res.render('search', { movies: filteredMovies });
-        } catch (error) {
-            // Handle any errors, for example, by rendering an error view
-            res.render('search', {movies: null});
+            // Check if any of the search criteria match
+            if ((!search || movieTitle.startsWith(search.toLowerCase())) &&
+                (!genre || movieGenre.startsWith(genre.toLowerCase())) &&
+                (!year || movieYear === year)) {
+                return true;
+            }
+            return false;
+        });
 
-        }
+        // Convert the set of unique movies back to an array
+        // const filteredMovies = Array.from(uniqueFilteredMovies);
+
+        // Render the view with the filtered movies
+        res.render('search', { movies: filteredMovies });
     }
 };
