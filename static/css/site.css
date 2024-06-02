@@ -17,7 +17,12 @@ body {
 main {
     padding-bottom: 5em;
 }
-
+.error label{
+    color: red;
+}
+.error input.inputFields, .error textarea.inputFields{
+    border-color: red;
+}
 body {
     background-color: #FFB4A2;
     background-position: 20% 82%;
@@ -26,12 +31,7 @@ body {
     background-size: cover;
     background-attachment: fixed;
 }
-.error label{
-    color: red;
-}
-.error input.inputFields, .error textarea.inputFields{
-    border-color: red;
-}
+
 *,
 *::before,
 *::after {
