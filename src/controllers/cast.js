@@ -10,7 +10,6 @@ module.exports = {
             born : !req.body.born,
             nameInMovie : !req.body.nameInMovie,
             imageURL : !req.body.imageURL,
-            movie : !req.body.movie,
         }
         if (Object.values(errors).some(e => e)) {
             res.render('cast-create', {cast: req.body, errors})

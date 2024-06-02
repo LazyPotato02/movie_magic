@@ -4,18 +4,19 @@ const {SchemaTypes: Types} = require("mongoose");
 
 async function createCast(castData){
     const cast = new Cast({
-        name : castData.name,
-        age :castData.age,
-        born : castData.born,
-        nameInMovie : castData.nameInMovie,
-        imageURL : castData.imageURL,
+        name: castData.name,
+        age: castData.age,
+        born: castData.born,
+        nameInMovie: castData.nameInMovie,
+        imageUrl: castData.imageUrl,
+        movie: castData.movie
     })
     await cast.save()
     return cast
 }
 
 async function getAllCast(){
-
+    return await Cast.find().lean()
 }
 
 module.exports = {
