@@ -1,7 +1,8 @@
 const {getAllMovies, getMovieById} = require("../services/movie");
-const {all} = require("express/lib/application");
+
 module.exports = {
     home: async (req, res) => {
+
         const movies = await getAllMovies();
 
         res.render('home', {movies});
@@ -19,7 +20,7 @@ module.exports = {
         res.render('details', {movie})
     },
     search: async (req, res) => {
-        const { search, genre, year } = req.query;
+        const {search, genre, year} = req.query;
 
         console.log('Received search:', search);
         console.log('Received genre:', genre);
@@ -47,6 +48,6 @@ module.exports = {
         // const filteredMovies = Array.from(uniqueFilteredMovies);
 
         // Render the view with the filtered movies
-        res.render('search', { movies: filteredMovies });
+        res.render('search', {movies: filteredMovies});
     }
 };
