@@ -4,6 +4,8 @@ module.exports = {
         res.render('create')
     },
     createPost: async (req, res) => {
+        const authorId = req.user._id
+
         const errors = {
             title: !req.body.title,
             genre: !req.body.genre,
@@ -12,6 +14,7 @@ module.exports = {
             imageURL: !req.body.imageURL,
             rating: !req.body.rating,
             description: !req.body.description,
+            author: authorId
         }
         if (Object.values(errors).some(e => e)) {
             res.render('create', {movie: req.body, errors})

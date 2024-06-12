@@ -13,6 +13,7 @@ async function getMovieById(id) {
 }
 async function createMovie(movieData) {
 
+
     const movie = new Movie({
         title: movieData.title,
         genre: movieData.genre,
