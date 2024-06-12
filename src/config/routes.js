@@ -5,7 +5,7 @@ const {createGet,createPost} = require("../controllers/movie");
 const {notFound} = require("../controllers/404");
 const {createGet:createCastGet,createPost:createCastPost} = require('../controllers/cast')
 const {attachGet, attachPost} = require("../controllers/attach");
-const {registerGet, registerPost} = require("../controllers/user");
+const {registerGet, registerPost, loginGet, loginPost, logout} = require("../controllers/user");
 const router = Router()
 
 router.get('/',home);
@@ -26,6 +26,12 @@ router.post('/create/cast',createCastPost )
 
 router.get('/register',registerGet)
 router.post('/register',registerPost)
+
+router.get('/login',loginGet)
+router.post('/login',loginPost)
+
+
+router.get('/logout',logout)
 
 
 
