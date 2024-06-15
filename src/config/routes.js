@@ -1,49 +1,29 @@
-const {Router} = require('express')
-const {home, details, search} = require("../controllers/catalog");
-const {about} = require("../controllers/about");
-const {createGet, createPost, editGet, editPost, deletePost, deleteGet} = require("../controllers/movie");
-const {notFound} = require("../controllers/404");
-const {createGet: createCastGet, createPost: createCastPost} = require('../controllers/cast')
-const {attachGet, attachPost} = require("../controllers/attach");
-const {registerGet, registerPost, loginGet, loginPost, logout} = require("../controllers/user");
-const {isGuest, isUser} = require("../middlewares/guards");
-const router = Router()
+const { isUser } = require('../middlewares/guards');
+const { home, details, search } = require('../controllers/catalog');
+const { about } = require('../controllers/about');
+const { movieRouter } = require('../controllers/movie');
+const { createGet: createCastGet, createPost: createCastPost } = require('../controllers/cast');
+const { notFound } = require('../controllers/404');
+const { attachGet, attachPost } = require('../controllers/attach');
+const { userRouter } = require('../controllers/user');
 
-router.get('/', home);
+function configRoutes(app) {
+    app.get('/', home);
+    app.get('/search', search);
+    app.get('/details/:id', details);
 
-router.get('/about', about);
+    app.get('/attach/:id', isUser(), attachGet);
+    app.post('/attach/:id', isUser(), attachPost);
 
-router.get('/create/movie', isUser(), createGet)
-router.get('/create/cast', isUser(), createCastGet)
+    app.use(movieRouter);
 
-router.get('/details/:id', details);
+    app.get('/create/cast', isUser(), createCastGet);
+    app.post('/create/cast', isUser(), createCastPost);
 
-router.get('/attach/:id', isUser(), attachGet);
-router.post('/attach/:id', isUser(), attachPost);
+    app.use(userRouter);
 
-router.get('/edit/:id', isUser(), editGet);
-router.post('/edit/:id', isUser(), editPost);
-router.get('/delete/:id', isUser(), deleteGet);
-router.post('/delete/:id', isUser(), deletePost);
-router.get('/search', search)
-router.post('/create/movie', isUser(), createPost)
-router.post('/create/cast', isUser(), createCastPost)
-
-router.get('/register', isGuest(), registerGet)
-router.post('/register', isGuest(), registerPost)
-
-router.get('/login', isGuest(), loginGet)
-router.post('/login', isGuest(), loginPost)
-
-
-
-
-router.get('/logout', logout)
-
-
-router.get('*', notFound)
-
-
-module.exports = {
-    router,
+    app.get('/about', about);
+    app.get('*', notFound);
 }
+
+module.exports = { configRoutes };
